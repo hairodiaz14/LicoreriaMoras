@@ -29,5 +29,7 @@ namespace LicoreriaMoras.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<LicoreriaMoras.Models.LiquorType> LiquorTypes { get; set; }
     }
 }
