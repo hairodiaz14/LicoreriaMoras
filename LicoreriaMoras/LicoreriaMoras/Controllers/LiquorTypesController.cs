@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -12,22 +13,22 @@ namespace LicoreriaMoras.Controllers
 {
     public class LiquorTypesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private LicoreriaMorasContext db = new LicoreriaMorasContext();
 
         // GET: LiquorTypes
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.LiquorTypes.ToList());
+            return View(await db.LiquorTypes.ToListAsync());
         }
 
         // GET: LiquorTypes/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LiquorType liquorType = db.LiquorTypes.Find(id);
+            LiquorType liquorType = await db.LiquorTypes.FindAsync(id);
             if (liquorType == null)
             {
                 return HttpNotFound();
@@ -46,12 +47,12 @@ namespace LicoreriaMoras.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_liquorType,Descripcion")] LiquorType liquorType)
+        public async Task<ActionResult> Create([Bind(Include = "Id_liquorType,Descripcion")] LiquorType liquorType)
         {
             if (ModelState.IsValid)
             {
                 db.LiquorTypes.Add(liquorType);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -59,13 +60,13 @@ namespace LicoreriaMoras.Controllers
         }
 
         // GET: LiquorTypes/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LiquorType liquorType = db.LiquorTypes.Find(id);
+            LiquorType liquorType = await db.LiquorTypes.FindAsync(id);
             if (liquorType == null)
             {
                 return HttpNotFound();
@@ -78,25 +79,25 @@ namespace LicoreriaMoras.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_liquorType,Descripcion")] LiquorType liquorType)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_liquorType,Descripcion")] LiquorType liquorType)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(liquorType).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(liquorType);
         }
 
         // GET: LiquorTypes/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LiquorType liquorType = db.LiquorTypes.Find(id);
+            LiquorType liquorType = await db.LiquorTypes.FindAsync(id);
             if (liquorType == null)
             {
                 return HttpNotFound();
@@ -107,11 +108,11 @@ namespace LicoreriaMoras.Controllers
         // POST: LiquorTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            LiquorType liquorType = db.LiquorTypes.Find(id);
+            LiquorType liquorType = await db.LiquorTypes.FindAsync(id);
             db.LiquorTypes.Remove(liquorType);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
