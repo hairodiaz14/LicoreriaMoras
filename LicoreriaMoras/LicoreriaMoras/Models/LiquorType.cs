@@ -5,9 +5,9 @@ using System.Web;
 
 namespace LicoreriaMoras.Models
 {
-    public class pt
+    public class LiquorType
     {
-        //dd
-        //jhhhhhh
+        public int Id_liquorType { get; set; }
+        public string  Descripcion { get; set; }
     }
 }
